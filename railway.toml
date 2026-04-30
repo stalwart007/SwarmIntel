@@ -1,0 +1,19 @@
+[build]
+builder = "docker"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "./start-prod.sh"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[service]
+# This tells Railway to route traffic to the frontend
+tcpProxyPort = 3000
+
+[[healthcheck]]
+path = "/health"
+port = 5001
+interval = 30
+timeout = 5
+startPeriod = 60

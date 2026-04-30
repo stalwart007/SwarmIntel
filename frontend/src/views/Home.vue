@@ -2,7 +2,7 @@
   <div class="home-container">
     <!-- 顶部导航栏 -->
     <nav class="navbar">
-      <div class="nav-brand">MIROFISH</div>
+      <div class="nav-brand">SWARMINTEL</div>
       <div class="nav-links">
         <LanguageSwitcher />
         <a href="https://github.com/666ghj/MiroFish" target="_blank" class="github-link">
@@ -10,6 +10,11 @@
         </a>
       </div>
     </nav>
+
+    <div class="background-effects">
+      <div class="gradient-sphere"></div>
+      <div class="grid-overlay"></div>
+    </div>
 
     <div class="main-content">
       <!-- 上半部分：Hero 区域 -->
@@ -37,19 +42,55 @@
               {{ $t('home.slogan') }}<span class="blinking-cursor">_</span>
             </p>
           </div>
-           
-          <div class="decoration-square"></div>
+          
+          <div class="hero-actions">
+            <button class="primary-btn" @click="scrollToDashboard">
+              {{ $t('home.startEngine') }} <span class="btn-icon">⚡</span>
+            </button>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <span class="stat-value">24/7</span>
+                <span class="stat-label">Simulations</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">1.2M</span>
+                <span class="stat-label">Agents</span>
+              </div>
+            </div>
+          </div>
         </div>
         
         <div class="hero-right">
-          <!-- Logo 区域 -->
           <div class="logo-container">
-            <img src="../assets/logo/MiroFish_logo_left.jpeg" alt="MiroFish Logo" class="hero-logo" />
+            <img src="/icon.png" alt="SwarmIntel Logo" class="hero-logo" />
+            <div class="logo-glow"></div>
           </div>
           
           <button class="scroll-down-btn" @click="scrollToBottom">
             ↓
           </button>
+        </div>
+      </section>
+
+      <!-- Engine Capabilities Section -->
+      <section class="features-section">
+        <h2 class="features-title">{{ $t('home.featuresTitle') }}</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3 class="feature-name">{{ $t('home.feature1Title') }}</h3>
+            <p class="feature-desc">{{ $t('home.feature1Desc') }}</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <h3 class="feature-name">{{ $t('home.feature2Title') }}</h3>
+            <p class="feature-desc">{{ $t('home.feature2Desc') }}</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3 class="feature-name">{{ $t('home.feature3Title') }}</h3>
+            <p class="feature-desc">{{ $t('home.feature3Desc') }}</p>
+          </div>
         </div>
       </section>
 
@@ -286,6 +327,14 @@ const removeFile = (index) => {
   files.value.splice(index, 1)
 }
 
+// 滚动到控制台
+const scrollToDashboard = () => {
+  const dashboard = document.querySelector('.dashboard-section')
+  if (dashboard) {
+    dashboard.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 // 滚动到底部
 const scrollToBottom = () => {
   window.scrollTo({
@@ -314,9 +363,9 @@ const startSimulation = () => {
 <style scoped>
 /* 全局变量与重置 */
 :root {
-  --black: #000000;
+  --black: #0A192F;
   --white: #FFFFFF;
-  --orange: #FF4500;
+  --orange: #00E5FF;
   --gray-light: #F5F5F5;
   --gray-text: #666666;
   --border: #E5E5E5;
@@ -331,57 +380,50 @@ const startSimulation = () => {
 
 .home-container {
   min-height: 100vh;
-  background: var(--white);
+  background: #f8fafc;
   font-family: var(--font-sans);
-  color: var(--black);
+  color: #0f172a;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* 顶部导航 */
-.navbar {
-  height: 60px;
-  background: var(--black);
-  color: var(--white);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
+/* Background Effects */
+.background-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.nav-brand {
-  font-family: var(--font-mono);
-  font-weight: 800;
-  letter-spacing: 1px;
-  font-size: 1.2rem;
+.gradient-sphere {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  filter: blur(80px);
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
 
-.github-link {
-  color: var(--white);
-  text-decoration: none;
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: opacity 0.2s;
-}
-
-.github-link:hover {
-  opacity: 0.8;
-}
-
-.arrow {
-  font-family: sans-serif;
-}
-
-/* 主要内容区 */
 .main-content {
+  position: relative;
+  z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
   padding: 60px 40px;
@@ -425,16 +467,16 @@ const startSimulation = () => {
 }
 
 .main-title {
-  font-size: 4.5rem;
-  line-height: 1.2;
-  font-weight: 500;
-  margin: 0 0 40px 0;
-  letter-spacing: -2px;
-  color: var(--black);
+  font-size: 5rem;
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 0 0 30px 0;
+  letter-spacing: -3px;
+  color: #0f172a;
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #000000 0%, #444444 100%);
+  background: linear-gradient(90deg, #3b82f6 0%, #2dd4bf 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -502,6 +544,115 @@ const startSimulation = () => {
   background: var(--orange);
 }
 
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 10px;
+}
+
+/* 顶部导航 */
+.navbar {
+  height: 60px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  color: #0f172a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.nav-brand {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 1.2rem;
+  color: #3b82f6;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.github-link {
+  color: #0f172a;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.github-link:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #3b82f6;
+}
+
+.arrow {
+  font-family: sans-serif;
+}
+
+.primary-btn {
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  padding: 18px 36px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  box-shadow: 10px 10px 0px var(--orange);
+}
+
+.primary-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 12px 12px 0px var(--orange);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 30px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--gray-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .hero-right {
   flex: 0.8;
   display: flex;
@@ -515,11 +666,32 @@ const startSimulation = () => {
   display: flex;
   justify-content: flex-end;
   padding-right: 40px;
+  position: relative;
 }
 
 .hero-logo {
-  max-width: 500px; /* 调整logo大小 */
+  max-width: 450px;
   width: 100%;
+  z-index: 2;
+  filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.2));
+  animation: float 6s ease-in-out infinite;
+}
+
+.logo-glow {
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  transform: translateY(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, transparent 70%);
+  filter: blur(40px);
+  z-index: 1;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
 }
 
 .scroll-down-btn {
@@ -538,14 +710,88 @@ const startSimulation = () => {
 
 .scroll-down-btn:hover {
   border-color: var(--orange);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+/* Features Section */
+.features-section {
+  margin-bottom: 100px;
+  padding: 40px 0;
+}
+
+.features-title {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.features-grid {
+  display: flex;
+  gap: 30px;
+}
+
+.feature-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 40px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+
+.feature-card:hover::before {
+  transform: translateX(100%);
+}
+
+.feature-card:hover {
+  background: #ffffff;
+  transform: translateY(-5px);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.feature-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--white);
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #94a3b8;
 }
 
 /* Dashboard 双栏布局 */
 .dashboard-section {
   display: flex;
   gap: 60px;
-  border-top: 1px solid var(--border);
-  padding-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 80px;
   align-items: flex-start;
 }
 
@@ -594,16 +840,25 @@ const startSimulation = () => {
 }
 
 .metric-card {
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   padding: 20px 30px;
   min-width: 150px;
+  transition: all 0.3s;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.metric-card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
 }
 
 .metric-value {
   font-family: var(--font-mono);
   font-size: 1.8rem;
-  font-weight: 520;
+  font-weight: 700;
   margin-bottom: 5px;
+  color: #3b82f6;
 }
 
 .metric-label {
@@ -613,9 +868,11 @@ const startSimulation = () => {
 
 /* 项目模拟步骤介绍 */
 .steps-container {
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 30px;
   position: relative;
+  margin-top: 20px;
 }
 
 .steps-header {
@@ -673,8 +930,10 @@ const startSimulation = () => {
 }
 
 .console-box {
-  border: 1px solid #CCC; /* 外部实线 */
-  padding: 8px; /* 内边距形成双重边框感 */
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .console-section {

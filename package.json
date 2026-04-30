@@ -1,6 +1,7 @@
 {
   "name": "mirofish",
   "version": "0.1.0",
+  "type": "module",
   "description": "MiroFish - 简洁通用的群体智能引擎，预测万物",
   "scripts": {
     "setup": "npm install && cd frontend && npm install",
@@ -12,7 +13,9 @@
     "build": "cd frontend && npm run build"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^3.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

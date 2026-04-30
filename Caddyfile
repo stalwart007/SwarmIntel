@@ -1,0 +1,25 @@
+# Caddyfile - MiroFish Production Config
+
+# --- Option 1: Use your custom domain (HTTPS) ---
+# Replace 'yourdomain.com' with your actual domain
+# yourdomain.com {
+#     # Frontend
+#     reverse_proxy mirofish:3000
+#
+#     # Backend API
+#     handle_path /api/* {
+#         reverse_proxy mirofish:5001
+#     }
+# }
+
+# --- Option 2: Use Public IP (HTTP only) ---
+# Use this while you are waiting to buy a domain
+:80 {
+    # Frontend
+    reverse_proxy mirofish:3000
+
+    # Backend API
+    handle_path /api/* {
+        reverse_proxy mirofish:5001
+    }
+}

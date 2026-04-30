@@ -1,0 +1,39 @@
+services:
+  mirofish:
+    build: .
+    container_name: mirofish
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./backend/uploads:/app/backend/uploads
+    # Internal ports for Caddy to talk to
+    expose:
+      - "3000"
+      - "5001"
+    networks:
+      - mirofish-net
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - mirofish
+    networks:
+      - mirofish-net
+
+networks:
+  mirofish-net:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

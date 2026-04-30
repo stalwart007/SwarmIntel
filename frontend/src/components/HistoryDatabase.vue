@@ -598,7 +598,6 @@ onUnmounted(() => {
   pointer-events: none;
 }
 
-/* 使用CSS背景图案创建固定间距的正方形网格 */
 .grid-pattern {
   position: absolute;
   top: 0;
@@ -606,10 +605,9 @@ onUnmounted(() => {
   right: 0;
   bottom: 0;
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
   background-size: 50px 50px;
-  /* 从左上角开始定位，高度变化时只在底部扩展，不影响已有网格位置 */
   background-position: top left;
 }
 
@@ -620,8 +618,8 @@ onUnmounted(() => {
   right: 0;
   bottom: 0;
   background: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, transparent 15%, transparent 85%, rgba(255, 255, 255, 0.9) 100%),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, transparent 20%, transparent 80%, rgba(255, 255, 255, 0.8) 100%);
+    linear-gradient(to right, #f8fafc 0%, transparent 15%, transparent 85%, #f8fafc 100%),
+    linear-gradient(to bottom, #f8fafc 0%, transparent 20%, transparent 80%, #f8fafc 100%);
   pointer-events: none;
 }
 
@@ -668,18 +666,20 @@ onUnmounted(() => {
 .project-card {
   position: absolute;
   width: 280px;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 0;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
   padding: 14px;
   cursor: pointer;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 700ms cubic-bezier(0.23, 1, 0.32, 1), opacity 700ms cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  color: #0f172a;
 }
 
 .project-card:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #3b82f6;
+  transform: translateY(-5px) !important;
   z-index: 1000 !important;
 }
 
@@ -694,7 +694,7 @@ onUnmounted(() => {
   align-items: center;
   margin-bottom: 12px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #F3F4F6;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   font-family: 'JetBrains Mono', 'SF Mono', monospace;
   font-size: 0.7rem;
 }
@@ -760,9 +760,9 @@ onUnmounted(() => {
   max-height: 110px;
   margin-bottom: 12px;
   padding: 8px 10px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+  background: #f1f5f9;
   border-radius: 4px;
-  border: 1px solid #e8eaed;
+  border: 1px solid #e2e8f0;
   overflow: hidden;
 }
 
@@ -791,15 +791,25 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 4px 6px;
-  background: rgba(255, 255, 255, 0.7);
+  background: #ffffff;
   border-radius: 3px;
   transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .file-item:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: translateX(2px);
-  border-color: #e5e7eb;
+  background: #f8fafc;
+  border-color: #3b82f6;
+}
+
+.file-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.1px;
 }
 
 /* 简约文件标签样式 */

@@ -25,5 +25,5 @@ COPY . .
 
 EXPOSE 3000 5001
 
-# 同时启动前后端（开发模式）
-CMD ["npm", "run", "dev"]
+# 同时启动前后端（生产模式）
+CMD ["./start-prod.sh"]
