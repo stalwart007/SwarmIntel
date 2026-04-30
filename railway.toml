@@ -1,8 +1,0 @@
-[build]
-dockerfile = "Dockerfile"
-
-[deploy]
-startCommand = "./start-prod.sh"
-healthcheckPath = "/health"
-healthcheckTimeout = 100
-restartPolicyType = "ON_FAILURE"
