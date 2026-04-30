@@ -29,9 +29,9 @@ WORKDIR /app
 COPY package.json ./
 COPY backend/pyproject.toml backend/uv.lock ./backend/
 
-# Install Backend dependencies (Force CPU-only to save 4GB of space)
+# Install backend deps from lockfile (torch comes from PyPI via camel-ai / camel-oasis)
 RUN npm install --omit=dev \
-    && cd backend && uv sync --frozen --extra cpu --index-url https://download.pytorch.org/whl/cpu
+    && cd backend && uv sync --frozen
 
 # Copy only the necessary source code
 COPY backend/ ./backend/
