@@ -1,27 +1,42 @@
-FROM python:3.11
+# --- Stage 1: Build Frontend ---
+FROM node:18-slim AS frontend-builder
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm install
+COPY frontend/ ./
+RUN npm run build
 
-# 安装 Node.js （满足 >=18）及必要工具
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends nodejs npm \
-  && rm -rf /var/lib/apt/lists/*
+# --- Stage 2: Final Production Image ---
+FROM python:3.11-slim
 
-# 从 uv 官方镜像复制 uv
+# Install Node.js runtime (lighter than the full dev version) and UV
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy uv from official image
 COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
 
 WORKDIR /app
 
-# 先复制依赖描述文件以利用缓存
-COPY package.json package-lock.json ./
-COPY frontend/package.json frontend/package-lock.json ./frontend/
+# Copy dependency files
+COPY package.json ./
 COPY backend/pyproject.toml backend/uv.lock ./backend/
 
-# 安装依赖（Node + Python）
-RUN npm install \
-  && npm install --prefix frontend \
-  && cd backend && uv sync --frozen
+# Install Backend dependencies and Proxy dependencies
+RUN npm install --omit=dev \
+    && cd backend && uv sync --frozen
 
-# 复制项目源码
-COPY . .
+# Copy only the necessary source code
+COPY backend/ ./backend/
+COPY start-prod.sh proxy.js locales/ ./locales/ ./
 
-# 同时启动前后端（生产模式）
+# Copy the ALREADY BUILT frontend from Stage 1
+COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
+
+RUN chmod +x start-prod.sh
+
+# Launch SwarmIntel
 CMD ["./start-prod.sh"]
