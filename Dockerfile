@@ -1,5 +1,9 @@
 # --- Stage 1: Build Frontend ---
 FROM node:20-slim AS frontend-builder
+WORKDIR /app
+# Copy the locales folder first (needed for i18n)
+COPY locales/ ./locales/
+# Copy frontend and build
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
@@ -9,7 +13,7 @@ RUN npm run build
 # --- Stage 2: Final Production Image ---
 FROM python:3.11-slim
 
-# Install Node.js 20 runtime (required by Vite/Node ecosystem) and UV
+# Install Node.js 20 runtime and UV
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
