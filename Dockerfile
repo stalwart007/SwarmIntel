@@ -35,7 +35,9 @@ RUN npm install --omit=dev \
 
 # Copy only the necessary source code
 COPY backend/ ./backend/
-COPY start-prod.sh proxy.js locales/ ./locales/ ./
+COPY start-prod.sh proxy.js ./
+# Must be a separate COPY so files land in /app/locales/ (backend expects .../../locales/*.json)
+COPY locales/ ./locales/
 
 # Copy the ALREADY BUILT frontend from Stage 1
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
