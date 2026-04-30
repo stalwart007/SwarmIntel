@@ -12,7 +12,7 @@ npm run build
 cd ..
 
 # 2. Start both Backend and Proxy using concurrently
-echo "✨ Launching Services..."
+echo "✨ Launching SwarmIntel on Port $PORT..."
 # Use concurrently to run the Python backend and the Express proxy
 # Backend on 5001, Proxy on PORT (default 3000)
 npx concurrently \
