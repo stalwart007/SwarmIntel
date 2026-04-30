@@ -29,9 +29,9 @@ WORKDIR /app
 COPY package.json ./
 COPY backend/pyproject.toml backend/uv.lock ./backend/
 
-# Install Backend dependencies and Proxy dependencies
+# Install Backend dependencies (Force CPU-only to save 4GB of space)
 RUN npm install --omit=dev \
-    && cd backend && uv sync --frozen
+    && cd backend && uv sync --frozen --extra cpu --index-url https://download.pytorch.org/whl/cpu
 
 # Copy only the necessary source code
 COPY backend/ ./backend/
