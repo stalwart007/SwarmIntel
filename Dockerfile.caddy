@@ -1,0 +1,4 @@
+# Production Caddy image — bakes Caddyfile so deploys don't rely on a host bind mount
+# (Hostinger and others often fail with "not a directory" if the path was auto-created as a folder.)
+FROM caddy:2-alpine
+COPY Caddyfile /etc/caddy/Caddyfile
